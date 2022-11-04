@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
 
     public float bulletSpeed = 10f;
+    public float bulletDamage = 50f;
 
     public float bulletTime = 10f;
     private void bulletMovement()
@@ -42,7 +43,8 @@ public class Bullet : MonoBehaviour
             Destroy(this.gameObject);
             if (other.tag == "Enemy")
             {
-                Destroy(other.gameObject);
+                Enemy hitEnemy = other.gameObject.GetComponent<Enemy>();
+                hitEnemy.damage(bulletDamage);
 
             }
         }

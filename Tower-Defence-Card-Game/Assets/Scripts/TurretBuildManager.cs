@@ -31,9 +31,14 @@ public class TurretBuildManager : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Debug.Log(hit.point + " is clicked");
+            if (hit.transform.tag == "Ground")
+            {
+                return hit.point;
+
+            }
         }
 
-        return hit.point;
+        return Vector3.positiveInfinity;
     }
 
     private void TurretBuilder(Vector3 pos)
@@ -46,9 +51,12 @@ public class TurretBuildManager : MonoBehaviour
                 return;
             }
         }
+        if (pos != Vector3.positiveInfinity)
+        {
+            GameObject newTurret = Instantiate(turretToBuild, pos, Quaternion.Euler(0, 0, 0));
+            newTurret.transform.SetParent(turretParent.transform);
 
-        GameObject newTurret = Instantiate(turretToBuild, pos, Quaternion.Euler(0, 0, 0));
-        newTurret.transform.SetParent(turretParent.transform);
+        }
 
     }
 }
