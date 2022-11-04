@@ -573,7 +573,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 705507993}
   m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: -9.31, y: 3, z: -5.37}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1008,6 +1008,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1720954092, guid: ab4535862c8318a46aeb16d8d380df0f, type: 3}
+      propertyPath: BPSBulletsPerSecond
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4462904105374118839, guid: ab4535862c8318a46aeb16d8d380df0f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -1068,6 +1072,10 @@ PrefabInstance:
     - target: {fileID: 3184618879520007381, guid: bac1e5dacef32824c80e45c6ef524e9a, type: 3}
       propertyPath: m_Name
       value: Enemy Spawner
+      objectReference: {fileID: 0}
+    - target: {fileID: 5082372896867561987, guid: bac1e5dacef32824c80e45c6ef524e9a, type: 3}
+      propertyPath: infiniteEnemies
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7673229573251157044, guid: bac1e5dacef32824c80e45c6ef524e9a, type: 3}
       propertyPath: m_RootOrder

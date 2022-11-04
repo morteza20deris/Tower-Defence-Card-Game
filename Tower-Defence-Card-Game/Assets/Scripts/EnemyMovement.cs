@@ -38,12 +38,12 @@ public class EnemyMovement : MonoBehaviour
 
     }
 
+
     /// <summary>
-    /// OnCollisionEnter is called when this collider/rigidbody has begun
-    /// touching another rigidbody/collider.
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
-    //  <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionEnter(Collision other)
+    // <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other)
     {
         Debug.Log("collision: " + other.gameObject.name);
 
@@ -66,7 +66,7 @@ public class EnemyMovement : MonoBehaviour
             transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
 
 
-            if (dir.magnitude < 1)
+            if (Vector3.Distance(transform.position, target.position) < 0.1)
             {
                 if (targetIndex < wayPoints.wayPoint.Length - 1)
                 {

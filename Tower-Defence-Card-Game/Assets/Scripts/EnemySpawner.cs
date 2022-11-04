@@ -10,10 +10,15 @@ public class EnemySpawner : MonoBehaviour
 
     public GameObject enemy;
     public int interval;
+
+    public bool infiniteEnemies = false;
     public int enemyCount;
+    private GameObject enemyParent;
     // Start is called before the first frame update
     void Start()
     {
+        enemyParent = new GameObject("Enemy parent");
+        enemyParent.transform.position = Vector3.zero;
         StartCoroutine(enemySpawning());
     }
 
@@ -27,10 +32,22 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator enemySpawning()
     {
+        float enemyCount2 = enemyCount;
+
         for (int i = 0; i <= enemyCount; i++)
         {
+            if (infiniteEnemies)
+            {
+                enemyCount2 = float.PositiveInfinity;
+            }
+            else
+            {
+                enemyCount2 = enemyCount;
+            }
             // GameObject newEnemy = new GameObject("enemy#" + i);
-            Instantiate(enemy, transform.position, Quaternion.identity);
+            GameObject newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
+            newEnemy.name = "enemy#" + i;
+            newEnemy.transform.SetParent(enemyParent.transform);
             WaitForSeconds wait = new WaitForSeconds(interval);
             yield return wait;
         }
