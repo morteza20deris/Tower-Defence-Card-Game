@@ -45,6 +45,11 @@ public class Bullet : MonoBehaviour
             {
                 Enemy hitEnemy = other.gameObject.GetComponent<Enemy>();
                 hitEnemy.damage(bulletDamage);
+                Enemy enemy = hitEnemy.gameObject.GetComponent<Enemy>();
+                if (hitEnemy.gameObject == null || enemy.enemyHealth <= 0)
+                {
+                    transform.parent.gameObject.GetComponent<Turret>().eXP += hitEnemy.expGainOnKill;
+                }
 
             }
         }

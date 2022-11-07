@@ -6,10 +6,14 @@ public class Turret : MonoBehaviour
 {
     public float distance = 10f;
     public GameObject bullet;
+    public float eXP = 0f;
+    public int lvl = 0;
+    public float turretLvlUpFactor = 100f;
     public GameObject bulletShooter;
     public float rotationSpeed = 10f;
     public float scanInterval = 0.5f;
     public float BPSBulletsPerSecond = 1f;
+    public float turretPrice = 100f;
     private GameObject nearestEnemy = null;
     /// <summary>
     /// Update is called every frame, if the MonoBehaviour is enabled.
@@ -31,6 +35,17 @@ public class Turret : MonoBehaviour
     {
         InvokeRepeating("sensor", 0, scanInterval);
         InvokeRepeating("bulletSpawner", 0, 1f / BPSBulletsPerSecond);
+    }
+
+    private void levelUP()
+    {
+        if (eXP > lvl * turretLvlUpFactor)
+        {
+            lvl++;
+            rotationSpeed *= 2;
+            BPSBulletsPerSecond *= 2;
+            eXP = 0;
+        }
     }
 
 
@@ -116,6 +131,8 @@ public class Turret : MonoBehaviour
         {
             Debug.Log("shooting");
             GameObject newBullet = Instantiate(bullet, bulletShooter.transform.position, bulletShooter.transform.rotation);
+            newBullet.transform.parent = transform;
+            levelUP();
 
         }
 

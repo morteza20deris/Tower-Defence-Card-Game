@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TurretBuildManager : MonoBehaviour
 {
 
     float minimumTurretDistance = 10f;
+    public TMP_Text coin;
+
     public GameObject turretToBuild;
 
     public GameObject turretParent;
@@ -38,7 +41,7 @@ public class TurretBuildManager : MonoBehaviour
             }
         }
 
-        return Vector3.positiveInfinity;
+        return Vector3.zero;
     }
 
     private void TurretBuilder(Vector3 pos)
@@ -51,10 +54,17 @@ public class TurretBuildManager : MonoBehaviour
                 return;
             }
         }
-        if (pos != Vector3.positiveInfinity)
+        if (pos != Vector3.zero)
         {
-            GameObject newTurret = Instantiate(turretToBuild, pos, Quaternion.Euler(0, 0, 0));
-            newTurret.transform.SetParent(turretParent.transform);
+            float coins = int.Parse(coin.text.Replace("$", ""));
+            Turret turret = turretToBuild.GetComponent<Turret>();
+            if (coins >= turret.turretPrice)
+            {
+                GameObject newTurret = Instantiate(turretToBuild, pos, Quaternion.Euler(0, 0, 0));
+                newTurret.transform.SetParent(turretParent.transform);
+                Shop.instance.bank(0, turret.turretPrice);
+
+            }
 
         }
 

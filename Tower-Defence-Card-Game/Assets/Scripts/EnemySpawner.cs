@@ -32,18 +32,15 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator enemySpawning()
     {
-        float enemyCount2 = enemyCount;
+
 
         for (int i = 0; i <= enemyCount; i++)
         {
             if (infiniteEnemies)
             {
-                enemyCount2 = float.PositiveInfinity;
+                i = 0;
             }
-            else
-            {
-                enemyCount2 = enemyCount;
-            }
+
             // GameObject newEnemy = new GameObject("enemy#" + i);
             GameObject newEnemy = Instantiate(enemy, transform.position, Quaternion.identity);
             newEnemy.name = "enemy#" + i;
