@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 4462904105374118839}
   - component: {fileID: 1720954092}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -273,15 +273,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c8906641e3666489f20666474301e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 30
+  distance: 25
   bullet: {fileID: 512291266543472912, guid: 570b43731359231449183df70701a5d6, type: 3}
-  bulletDamage: 100
+  bulletDamage: 50
+  bulletParent: {fileID: 0}
   bulletSpeed: 10
   eXP: 0
   lvl: 0
   turretLvlUpFactor: 100
   bulletShooter: {fileID: 4201416993107357357}
-  rotationSpeed: 10
+  rotationSpeed: 20
   scanInterval: 0.5
   BPSBulletsPerSecond: 1
-  turretPrice: 100
+  turretPrice: 50

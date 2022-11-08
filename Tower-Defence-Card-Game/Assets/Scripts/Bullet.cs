@@ -7,11 +7,14 @@ public class Bullet : MonoBehaviour
 
     public float bulletSpeed = 10f;
     public float bulletDamage = 50f;
+    public GameObject turretParent;
 
     public float bulletTime = 10f;
     private void bulletMovement()
     {
-        transform.position += transform.forward * Time.deltaTime * bulletSpeed;
+        Vector3 dir = transform.forward * Time.deltaTime * bulletSpeed;
+        transform.Translate(dir, Space.World);
+        // transform.position += transform.forward * Time.deltaTime * bulletSpeed;
     }
 
     /// <summary>
@@ -38,20 +41,23 @@ public class Bullet : MonoBehaviour
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other)
     {
-        if (other)
+        // Debug.Log("test1");
+        if (other.tag == "Enemy")
         {
-            Destroy(this.gameObject);
-            if (other.tag == "Enemy")
-            {
-                Enemy hitEnemy = other.gameObject.GetComponent<Enemy>();
-                hitEnemy.damage(bulletDamage);
-                Enemy enemy = hitEnemy.gameObject.GetComponent<Enemy>();
-                if (hitEnemy.gameObject == null || enemy.enemyHealth <= 0)
-                {
-                    transform.parent.gameObject.GetComponent<Turret>().eXP += hitEnemy.expGainOnKill;
-                }
+            // Debug.Log("test2");
+            Enemy hitEnemy = other.gameObject.GetComponent<Enemy>();
+            float gainedExp = hitEnemy.expGainOnKill;
+            hitEnemy.damage(bulletDamage);
 
+            if (hitEnemy.enemyHealthRemaining <= 0 || hitEnemy.gameObject == null)
+            {
+                // Debug.Log("test3");
+                turretParent.GetComponent<Turret>().eXP += 10f;
+                // Destroy(hitEnemy.gameObject);
             }
+
         }
+        Destroy(this.gameObject);
+
     }
 }

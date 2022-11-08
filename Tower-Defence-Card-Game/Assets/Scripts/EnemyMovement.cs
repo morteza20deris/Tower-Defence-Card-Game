@@ -52,6 +52,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Debug.Log(gameObject.name + " is destroyed");
             Destroy(this.gameObject);
+            Home.Instance.reduceLives();
         }
     }
 

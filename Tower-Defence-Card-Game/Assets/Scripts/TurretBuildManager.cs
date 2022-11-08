@@ -5,11 +5,13 @@ using TMPro;
 
 public class TurretBuildManager : MonoBehaviour
 {
+    public static TurretBuildManager instance;
 
     float minimumTurretDistance = 10f;
     public TMP_Text coin;
 
-    public GameObject turretToBuild;
+    public GameObject[] turretToBuild;
+    private int selectedTurret = -1;
 
     public GameObject turretParent;
 
@@ -22,6 +24,19 @@ public class TurretBuildManager : MonoBehaviour
         {
             TurretBuilder(getClickedPos());
         }
+    }
+
+    public void getSelectedTurret(int selectedTurretIndex)
+    {
+        selectedTurret = selectedTurretIndex;
+    }
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        instance = this;
     }
 
 
@@ -54,13 +69,13 @@ public class TurretBuildManager : MonoBehaviour
                 return;
             }
         }
-        if (pos != Vector3.zero)
+        if (pos != Vector3.zero && selectedTurret != -1)
         {
             float coins = int.Parse(coin.text.Replace("$", ""));
-            Turret turret = turretToBuild.GetComponent<Turret>();
+            Turret turret = turretToBuild[selectedTurret].GetComponent<Turret>();
             if (coins >= turret.turretPrice)
             {
-                GameObject newTurret = Instantiate(turretToBuild, pos, Quaternion.Euler(0, 0, 0));
+                GameObject newTurret = Instantiate(turretToBuild[selectedTurret], pos, Quaternion.Euler(0, 0, 0));
                 newTurret.transform.SetParent(turretParent.transform);
                 Shop.instance.bank(0, turret.turretPrice);
 

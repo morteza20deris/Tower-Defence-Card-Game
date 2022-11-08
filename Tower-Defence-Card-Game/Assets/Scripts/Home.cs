@@ -1,27 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Home : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
+    public int lives = 10;
+    public TMP_Text livesText;
+    private bool gameEnded = false;
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
+    public static Home Instance;
     /// <summary>
-    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// Awake is called when the script instance is being loaded.
     /// </summary>
-    /// <param name="other">The other Collider involved in this collision.</param>
-    // void OnTriggerEnter(Collider other)
-    // {
-    //     Debug.Log(other.gameObject.name + " collided with Home");
-    // }
+    void Awake()
+    {
+        Instance = this;
+    }
+
+
+
+    public void reduceLives()
+    {
+        if (lives > 0)
+        {
+            lives--;
+            livesText.text = lives + " Lives Left";
+        }
+        else if (!gameEnded)
+        {
+            Debug.Log("Game Over");
+            gameEnded = true;
+
+        }
+    }
 }

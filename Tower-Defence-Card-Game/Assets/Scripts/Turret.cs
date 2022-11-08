@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
+    public bool useLaser = false;
+    public LineRenderer lineRenderer;
     public float distance = 10f;
     public GameObject bullet;
+    public float bulletDamage = 10f;
+    public GameObject bulletParent;
+    public float bulletSpeed = 10f;
     public float eXP = 0f;
     public int lvl = 0;
     public float turretLvlUpFactor = 100f;
@@ -20,7 +25,12 @@ public class Turret : MonoBehaviour
     /// </summary>
     void Update()
     {
-
+        if (!nearestEnemy)
+        {
+            if (useLaser)
+            { lineRenderer.enabled = false; }
+            return;
+        }
 
 
         rotationOfTurret();
@@ -42,12 +52,23 @@ public class Turret : MonoBehaviour
         if (eXP > lvl * turretLvlUpFactor)
         {
             lvl++;
-            rotationSpeed *= 2;
-            BPSBulletsPerSecond *= 2;
+            rotationSpeed *= 1.2f;
+            BPSBulletsPerSecond *= 1.2f;
+            bulletDamage *= 1.2f;
+            bulletSpeed *= 1.2f;
             eXP = 0;
         }
     }
 
+    private void Laser()
+    {
+        if (!lineRenderer.enabled)
+        {
+            lineRenderer.enabled = true;
+        }
+        lineRenderer.SetPosition(0, bulletShooter.transform.position);
+        lineRenderer.SetPosition(1, nearestEnemy.transform.position);
+    }
 
     /// <summary>
     /// rotation of turret is called when there is enemy in range and rotates the turret in the direction of enemy
@@ -72,7 +93,7 @@ public class Turret : MonoBehaviour
 
     private void sensor()
     {
-        Debug.Log("scaning");
+        Debug.Log("scanning");
         // nearestEnemy = null;
         GameObject[] targets = GameObject.FindGameObjectsWithTag("Enemy");
         if (targets.Length > 0)
@@ -131,7 +152,10 @@ public class Turret : MonoBehaviour
         {
             Debug.Log("shooting");
             GameObject newBullet = Instantiate(bullet, bulletShooter.transform.position, bulletShooter.transform.rotation);
-            newBullet.transform.parent = transform;
+            // newBullet.transform.parent = bulletParent.transform;
+            newBullet.GetComponent<Bullet>().turretParent = this.gameObject;
+            newBullet.GetComponent<Bullet>().bulletDamage = bulletDamage;
+            newBullet.GetComponent<Bullet>().bulletSpeed = bulletSpeed;
             levelUP();
 
         }
