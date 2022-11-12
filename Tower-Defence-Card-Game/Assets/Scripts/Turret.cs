@@ -44,7 +44,15 @@ public class Turret : MonoBehaviour
     void Start()
     {
         InvokeRepeating("sensor", 0, scanInterval);
-        InvokeRepeating("bulletSpawner", 0, 1f / BPSBulletsPerSecond);
+        if (useLaser == false)
+        {
+            InvokeRepeating("bulletSpawner", 0, 1f / BPSBulletsPerSecond);
+
+        }
+        else
+        {
+            InvokeRepeating("Laser", 0, 1f / BPSBulletsPerSecond);
+        }
     }
 
     private void levelUP()
@@ -62,12 +70,24 @@ public class Turret : MonoBehaviour
 
     private void Laser()
     {
-        if (!lineRenderer.enabled)
+        if (!nearestEnemy)
+        {
+            return;
+        }
+        if (!lineRenderer.enabled && nearestEnemy)
         {
             lineRenderer.enabled = true;
         }
         lineRenderer.SetPosition(0, bulletShooter.transform.position);
         lineRenderer.SetPosition(1, nearestEnemy.transform.position);
+        if (nearestEnemy)
+        {
+            nearestEnemy.GetComponent<Enemy>().damage(bulletDamage);
+            if (nearestEnemy.GetComponent<Enemy>().enemyHealthRemaining <= 0)
+            {
+                eXP += nearestEnemy.GetComponent<Enemy>().expGainOnKill;
+            }
+        }
     }
 
     /// <summary>
@@ -148,8 +168,12 @@ public class Turret : MonoBehaviour
 
     private void bulletSpawner()
     {
-        if (nearestEnemy != null)
+        if (nearestEnemy != null && useLaser == false)
         {
+            if (lineRenderer && lineRenderer.enabled)
+            {
+                lineRenderer.enabled = false;
+            }
             Debug.Log("shooting");
             GameObject newBullet = Instantiate(bullet, bulletShooter.transform.position, bulletShooter.transform.rotation);
             // newBullet.transform.parent = bulletParent.transform;

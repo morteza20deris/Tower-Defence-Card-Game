@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class TurretBuildManager : MonoBehaviour
@@ -22,6 +23,7 @@ public class TurretBuildManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject()) return;
             TurretBuilder(getClickedPos());
         }
     }
